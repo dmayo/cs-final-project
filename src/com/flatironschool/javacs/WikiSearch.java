@@ -1,6 +1,7 @@
 package com.flatironschool.javacs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -117,24 +118,18 @@ public class WikiSearch {
 	 * @return List of entries with URL and relevance.
 	 */
 	public List<Entry<String, Integer>> sort() {
-		// NOTE: this can be done more concisely in Java 8.  See
-		// http://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values-java
 
-		// make a list of entries
-		List<Entry<String, Integer>> entries = 
-				new LinkedList<Entry<String, Integer>>(map.entrySet());
-		
-		// make a Comparator object for sorting
-		Comparator<Entry<String, Integer>> comparator = new Comparator<Entry<String, Integer>>() {
-            @Override
-            public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
-                return e1.getValue().compareTo(e2.getValue());
-            }
-        };
-        
-        // sort and return the entries
-		Collections.sort(entries, comparator);
-		return entries;
+        List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>();
+        list.addAll(map.entrySet());
+        Comparator<Entry<String, Integer>> comparator = new Comparator<Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> n, Entry<String, Integer> m) {
+				return n.getValue()-m.getValue();
+			}
+		};
+		ListSorter<Entry<String, Integer>> sorter = new ListSorter<Entry<String, Integer>>();
+		sorter.mergeSortInPlace(list, comparator);
+		return list;
 	}
 
 
