@@ -1,6 +1,7 @@
 package com.flatironschool.javacs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -104,8 +105,17 @@ public class WikiSearch {
 	 * @return List of entries with URL and relevance.
 	 */
 	public List<Entry<String, Integer>> sort() {
-        // FILL THIS IN!
-		return null;
+        List<Entry<String, Integer>> list = new ArrayList<Entry<String, Integer>>();
+        list.addAll(map.entrySet());
+        Comparator<Entry<String, Integer>> comparator = new Comparator<Entry<String, Integer>>() {
+			@Override
+			public int compare(Entry<String, Integer> n, Entry<String, Integer> m) {
+				return n.getValue()-m.getValue();
+			}
+		};
+		ListSorter<Entry<String, Integer>> sorter = new ListSorter<Entry<String, Integer>>();
+		sorter.mergeSortInPlace(list, comparator);
+		return list;
 	}
 
 	/**
